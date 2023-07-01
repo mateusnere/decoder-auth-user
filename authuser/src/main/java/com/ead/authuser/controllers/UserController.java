@@ -1,9 +1,9 @@
 package com.ead.authuser.controllers;
 
-import com.ead.authuser.dtos.UserDTO;
-import com.ead.authuser.models.UserModel;
-import com.ead.authuser.services.UserService;
-import com.fasterxml.jackson.annotation.JsonView;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,11 +22,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import com.ead.authuser.dtos.UserDTO;
+import com.ead.authuser.models.UserModel;
+import com.ead.authuser.services.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 36000)
