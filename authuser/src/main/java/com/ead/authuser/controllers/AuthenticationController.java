@@ -3,12 +3,15 @@ package com.ead.authuser.controllers;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +28,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 @CrossOrigin(origins = "*", maxAge = 36000)
 @RequestMapping("/auth")
 public class AuthenticationController {
+
+    Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     @Autowired
     UserService userService;
@@ -54,6 +59,19 @@ public class AuthenticationController {
         userService.save(userModel);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userModel);
+    }
+
+    @GetMapping("/")
+    public String index() {
+        logger.trace("TRACE"); // Quando queremos uma granularidade maior...
+        logger.debug("DEBUG"); // Verificar informações quando estamos desenvolvendo uma funcionalidade (não recomendado utilizar em produção)
+        logger.info("INFO"); // Um detalhamento um pouco menor do que o debug mas sem deixar de ter o controle das informações
+        logger.warn("WARN"); // Quando queremos apresentar um log de ALERTA
+        logger.error("ERROR"); // Quando algo dá errado no sistema. Uma boa prática é utilizar esse nível de log dentro de um catch.
+        /* O nível de log padrão do springboot é INFO. Se não definirmos um outro via application.properties (ou application.yaml) ou na inicialização da execução,
+            não será printado no console os logs com nível de detalhamento maior (trace e debug), apenas os de nível de detalhamento menor (warn e error, além do próprio info).
+         */
+        return "Logging Spring Boot...";
     }
     
 }

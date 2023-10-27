@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ead.authuser.dtos.UserDTO;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.services.UserService;
-import com.ead.specifications.SpecificationTemplate;
+import com.ead.authuser.specifications.SpecificationTemplate;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;

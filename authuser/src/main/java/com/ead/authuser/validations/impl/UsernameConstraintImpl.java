@@ -9,7 +9,7 @@ public class UsernameConstraintImpl implements ConstraintValidator<UsernameConst
 
     @Override
     public boolean isValid(String username, ConstraintValidatorContext context) {
-        return username == null || username.trim().isEmpty() || username.contains(" ") ? false : true;
+        return username != null && !username.trim().isEmpty() && !username.contains(" ");
     }
 
 }

@@ -1,4 +1,4 @@
-package com.ead.specifications;
+package com.ead.authuser.specifications;
 
 import org.springframework.data.jpa.domain.Specification;
 
