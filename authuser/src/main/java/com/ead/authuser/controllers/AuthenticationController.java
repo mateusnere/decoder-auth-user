@@ -1,10 +1,12 @@
 package com.ead.authuser.controllers;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.ead.authuser.dtos.UserDTO;
+import com.ead.authuser.enums.UserStatus;
+import com.ead.authuser.enums.UserType;
+import com.ead.authuser.models.UserModel;
+import com.ead.authuser.services.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,19 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ead.authuser.dtos.UserDTO;
-import com.ead.authuser.enums.UserStatus;
-import com.ead.authuser.enums.UserType;
-import com.ead.authuser.models.UserModel;
-import com.ead.authuser.services.UserService;
-import com.fasterxml.jackson.annotation.JsonView;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
+@Log4j2
 @RestController
 @CrossOrigin(origins = "*", maxAge = 36000)
 @RequestMapping("/auth")
 public class AuthenticationController {
-
-    Logger logger = LogManager.getLogger(AuthenticationController.class);
 
     @Autowired
     UserService userService;
@@ -63,11 +60,11 @@ public class AuthenticationController {
 
     @GetMapping("/")
     public String index() {
-        logger.trace("TRACE"); // Quando queremos uma granularidade maior...
-        logger.debug("DEBUG"); // Verificar informações quando estamos desenvolvendo uma funcionalidade (não recomendado utilizar em produção)
-        logger.info("INFO"); // Um detalhamento um pouco menor do que o debug mas sem deixar de ter o controle das informações
-        logger.warn("WARN"); // Quando queremos apresentar um log de ALERTA
-        logger.error("ERROR"); // Quando algo dá errado no sistema. Uma boa prática é utilizar esse nível de log dentro de um catch.
+        log.trace("TRACE"); // Quando queremos uma granularidade maior...
+        log.debug("DEBUG"); // Verificar informações quando estamos desenvolvendo uma funcionalidade (não recomendado utilizar em produção)
+        log.info("INFO"); // Um detalhamento um pouco menor do que o debug mas sem deixar de ter o controle das informações
+        log.warn("WARN"); // Quando queremos apresentar um log de ALERTA
+        log.error("ERROR"); // Quando algo dá errado no sistema. Uma boa prática é utilizar esse nível de log dentro de um catch.
         /* O nível de log padrão do springboot é INFO. Se não definirmos um outro via application.properties (ou application.yaml) ou na inicialização da execução,
             não será printado no console os logs com nível de detalhamento maior (trace e debug), apenas os de nível de detalhamento menor (warn e error, além do próprio info).
          */
