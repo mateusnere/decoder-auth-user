@@ -38,11 +38,14 @@ public class AuthenticationController {
         @JsonView(UserDTO.UserView.RegistrationPost.class)
         UserDTO userDTO) {
 
+        log.debug("[POST registerUser] UserDTO received {}", userDTO.toString());
         if(userService.existsByUsername(userDTO.getUsername())) {
+            log.warn("Username {} already taken!", userDTO.getUsername());
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Username already taken!");
         }
 
         if(userService.existsByEmail(userDTO.getEmail())) {
+            log.warn("Email {} already taken!", userDTO.getEmail());
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Email already taken!");
         }
 
@@ -52,8 +55,9 @@ public class AuthenticationController {
         userModel.setUserType(UserType.STUDENT);
         userModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
         userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
-
         userService.save(userModel);
+        log.debug("[POST registerUser] UserModel saved {}", userModel.toString());
+        log.info("[POST registerUser] User saved successfully. UserID: {}", userModel.getUserId());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userModel);
     }
