@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ead.authuser.dtos.UserDTO;
@@ -43,10 +44,16 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Page<UserModel>> getAllUsers(
-        SpecificationTemplate.UserSpec spec,
-        @PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable) {
+            SpecificationTemplate.UserSpec spec,
+            @PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable,
+            @RequestParam(required = false) UUID courseId) {
 
-        Page<UserModel> userModelPage = userService.findAll(spec, pageable);
+        Page<UserModel> userModelPage = null;
+        if(courseId != null) {
+            userModelPage = userService.findAll(SpecificationTemplate.userCourseId(courseId).and(spec), pageable);
+        } else {
+            userModelPage = userService.findAll(spec, pageable);
+        }
 
         if(!userModelPage.isEmpty()) {
             for (UserModel userModel : userModelPage.toList()) {
@@ -99,7 +106,7 @@ public class UserController {
             userModel.setPhoneNumber(userDTO.getPhoneNumber());
             userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
             userService.save(userModel);
-            log.debug("[PUT updateUser] User updated {}", userModel.toString());
+            log.debug("[PUT updateUser] User updated. UserID: {}", userModel.getUserId());
             log.info("[PUT updateUser] User {} updated successfully!", userModel.getUserId());
 
             return ResponseEntity.status(HttpStatus.OK).body(userModel);
